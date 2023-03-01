@@ -15,6 +15,8 @@ export const Container = styled.div`
     height: 56px;
     width: 100%;
 
+    appearance: none;
+
     padding: 12px;
 
     color: ${({theme}) => theme.COLORS.WHITE};
@@ -24,6 +26,14 @@ export const Container = styled.div`
     &::placeholder {
       color: ${({theme}) => theme.COLORS.GRAY_300};
     }
+  }
+
+  >input:-webkit-autofill {
+    box-shadow: 0 0 0 30px ${({theme}) => theme.COLORS.BACKGROUND_900} inset;
+  }
+
+  >input:-webkit-autofill {
+    -webkit-text-fill-color: white !important;
   }
 
   > svg {
