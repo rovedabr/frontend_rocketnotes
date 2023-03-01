@@ -33,7 +33,7 @@ export const Container = styled.div`
   }
 
   >input:-webkit-autofill {
-    -webkit-text-fill-color: white !important;
+    -webkit-text-fill-color: white;
   }
 
   > svg {
