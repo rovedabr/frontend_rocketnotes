@@ -18,8 +18,8 @@ function AuthProvider({ children }) {
 
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`
       setData({ user, token })
-
-    } catch (error){
+     
+    } catch (error){ 
       if(error.message) {
         alert(error.response.data.message)
       } else {
@@ -27,7 +27,7 @@ function AuthProvider({ children }) {
       }
     }
   }
-}
+
 
   function signOut() {
     localStorage.removeItem("@rocketnotes:token")
@@ -68,21 +68,23 @@ function AuthProvider({ children }) {
 
   }, [])
   
-  return (
-    <AuthContext.Provider value={{ 
-        signIn,
-        signOut,
-        updateProfile,
-        user: data.user 
-      }} >
-      {children}
-    </AuthContext.Provider>
-  )
+    return (
+      <AuthContext.Provider value={{ 
+          signIn,
+          signOut,
+          updateProfile,
+          user: data.user 
+        }} >
+        {children}
+      </AuthContext.Provider>
+    )
+  }
 }
 
 function useAuth() {
   const context = useContext(AuthContext)
+
     return context
-  }
+}
 
 export { AuthProvider, useAuth }

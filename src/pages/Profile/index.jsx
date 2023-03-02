@@ -57,27 +57,27 @@ export function Profile() {
           placeholder="Nome"
           type="text"
           icon={FiUser}
-          valeu={name}
-          onChange={e => setName(e.taget.value)}
+          value={name}
+          onChange={e => setName(e.target.value)}
         />
         <Input
           placeholder="E-mail"
           type="text"
           icon={FiMail}
-          valeu={email}
-          onChange={e => setEmail(e.taget.value)}
+          value={email}
+          onChange={e => setEmail(e.target.value)}
         />
         <Input
           placeholder="Senha atual"
           type="password"
           icon={FiLock}
-          onChange={e => setPasswordOld(e.taget.value)}
+          onChange={e => setPasswordOld(e.target.value)}
         />
         <Input
           placeholder="Nova senha"
           type="password"
           icon={FiLock}
-          onChange={e => setPasswordNew(e.taget.value)}
+          onChange={e => setPasswordNew(e.target.value)}
         />
 
         <Button title="Salvar" onClick={handleUpdate}/>
