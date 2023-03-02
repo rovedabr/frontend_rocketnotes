@@ -31,7 +31,7 @@ export const Container = styled.div`
     }
 
   >input:-webkit-autofill {
-    -webkit-text-fill-color: white;
+    -webkit-text-fill-color: white !important;
   }
 
   > svg {

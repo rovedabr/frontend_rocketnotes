@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 
 import { api } from "../services/api";
 
@@ -17,8 +17,9 @@ function AuthProvider({ children }) {
       localStorage.setItem("@rocketnotes:token", token)
 
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
       setData({ user, token })
-     
+           
     } catch (error){ 
       if(error.message) {
         alert(error.response.data.message)
@@ -27,7 +28,6 @@ function AuthProvider({ children }) {
       }
     }
   }
-
 
   function signOut() {
     localStorage.removeItem("@rocketnotes:token")
@@ -67,6 +67,7 @@ function AuthProvider({ children }) {
     }
 
   }, [])
+
   
     return (
       <AuthContext.Provider value={{ 
