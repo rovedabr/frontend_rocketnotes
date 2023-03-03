@@ -1,3 +1,6 @@
+import { useState, useEffect } from "react";
+import { api } from "../../services/api";
+
 import { FiPlus, FiSearch } from "react-icons/fi";
 import { Container, Brand, Menu, Search, Content, NewNote } from "./styles";
 
@@ -8,6 +11,18 @@ import { Section } from "../../components/Section"
 import { Note } from "../../components/Note"
 
 export function Home() {
+  const [tags, setTags] = useState([])
+
+  useEffect(() => {
+    async function fetchTags() {
+      const response = await api.get("/tags")
+      setTags(response.data)
+    }
+
+    fetchTags()
+  
+  }),[]}
+
   return (
     <Container>
       <Brand>
@@ -17,10 +32,11 @@ export function Home() {
       <Header/>
 
       <Menu>
-        <li><ButtonText title="Todos" isActive /></li>
-        <li><ButtonText title="Frontend"/></li>
-        <li><ButtonText title="React"/></li>
-        <li><ButtonText title="Nodejs"/></li>
+        {
+          tags && tags.map(tag => (
+              <li><ButtonText title="Todos" isActive /></li>
+          ))
+        }
       </Menu>
 
       <Search>

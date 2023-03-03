@@ -45,6 +45,19 @@ export function New() {
   }
 
   async function handleNewNote() {
+
+    if(!title) {
+      return alert("Digite o título da nota")
+    }
+
+    if(newLink) {
+      return alert("Você deixou um Link preenchido e não clicou em adicionar.")
+    }
+
+    if(newTag) {
+    return alert("Você deixou uma Tag preenchida e não clicou em adicionar.")
+    }
+
     await api.post("/notes", {
       title,
       description,
@@ -55,8 +68,6 @@ export function New() {
     alert("Nota criada com sucesso!")
     navigate("/")
   }
-
-
 
   return (
     <Container>
