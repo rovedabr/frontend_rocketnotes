@@ -32,16 +32,16 @@ export function Home() {
       const response = await api.get("/tags")
       setTags(response.data)
     }
+  
+  }),[]
 
+  useEffect(() => {
     fetchTags()
       async function fetchNotes() {
         const response = await api.get(`/notes?title=${search}&tags=${tagsSelected}`)
         setNotes(response.data)
       }
-    
-  }),[]
-
-  useEffect(() => {
+      fetchNotes()
 
   }),[tagsSelected, search]
 
@@ -82,15 +82,14 @@ export function Home() {
 
       <Content>
         <Section title="Minhas notas">
-          <Note data={{
-            title:'React',
-            tags: [
-              {id: "1", name:"react"},
-              {id: "2", name:"nodejs"},
-              {id: "3", name:"rocketseat"},
-            ]
-          }}
-          />
+          {
+            note.mpa(note => (
+              <Note
+              key={String(note.id)}
+              data={note}
+              />
+            ))
+          }
         </Section>
       </Content>
 
