@@ -15,8 +15,14 @@ export function Home() {
   const [tagsSelected, setTagsSelected] = useState([])
 
   function handleTagSelected(tagName) {
+    const alreadySelected = tagsSelected.includes(tagName)
 
-  }
+    if (alreadySelected) {
+      const filteredTags = tagsSelected.filter(tag => tag !== tagName)
+      setTagsSelected(filteredTags)
+    } else {
+      setTagsSelected(prevState =>[...tagsSelected, tagName])
+    }
 
   useEffect(() => {
     async function fetchTags() {
@@ -39,7 +45,8 @@ export function Home() {
       <Menu>
       <li><ButtonText 
         title="Todos" 
-        isActive 
+        onClick={() => handleTagSelected("all")}
+        isActive={tagsSelected.length === 0}
         />
       </li>
         {
@@ -47,6 +54,8 @@ export function Home() {
               <li hey={String(tag.id)}>
                 <ButtonText 
                  title={tag.name} 
+                 onClick={() => handleTagSelected(tag.name)}
+                 isActive={tagsSelected.includes(tag.name)}
                 />
               </li>
           ))
