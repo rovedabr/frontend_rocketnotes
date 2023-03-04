@@ -13,6 +13,9 @@ import { Note } from "../../components/Note"
 export function Home() {
   const [tags, setTags] = useState([])
   const [tagsSelected, setTagsSelected] = useState([])
+  const [search, setSearch] = useState([])
+  const [notes, setNotes] = useState([])
+
 
   function handleTagSelected(tagName) {
     const alreadySelected = tagsSelected.includes(tagName)
@@ -31,8 +34,16 @@ export function Home() {
     }
 
     fetchTags()
-  
+      async function fetchNotes() {
+        const response = await api.get(`/notes?title=${search}&tags=${tagsSelected}`)
+        setNotes(response.data)
+      }
+    
   }),[]
+
+  useEffect(() => {
+
+  }),[tagsSelected, search]
 
   return (
     <Container>
@@ -63,7 +74,10 @@ export function Home() {
       </Menu>
 
       <Search>
-        <Input placeholder="Pesquisar pelo título" icon={FiSearch}/>
+        <Input 
+          placeholder="Pesquisar pelo título" 
+          onChange={() => setSearch(e.target.value)}
+          icon={FiSearch}/>
       </Search>
 
       <Content>
@@ -86,5 +100,6 @@ export function Home() {
       </NewNote>
 
     </Container>
-  )
-};
+    )
+  }
+}
