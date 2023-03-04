@@ -12,6 +12,11 @@ import { Note } from "../../components/Note"
 
 export function Home() {
   const [tags, setTags] = useState([])
+  const [tagsSelected, setTagsSelected] = useState([])
+
+  function handleTagSelected(tagName) {
+
+  }
 
   useEffect(() => {
     async function fetchTags() {
@@ -21,7 +26,7 @@ export function Home() {
 
     fetchTags()
   
-  }),[]}
+  }),[]
 
   return (
     <Container>
