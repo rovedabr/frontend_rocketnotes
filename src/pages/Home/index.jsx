@@ -18,6 +18,10 @@ export function Home() {
 
 
   function handleTagSelected(tagName) {
+    if(tagName === "all") {   //limpa os filtros e deixa apenas o filtro de todos selecionado
+      return setTagsSelected([])
+    }
+
     const alreadySelected = tagsSelected.includes(tagName)
 
     if (alreadySelected) {
@@ -83,7 +87,7 @@ export function Home() {
       <Content>
         <Section title="Minhas notas">
           {
-            note.mpa(note => (
+            note.map(note => (
               <Note
               key={String(note.id)}
               data={note}
