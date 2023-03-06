@@ -35,6 +35,7 @@ export function New() {
   function handleBack ()  {
     // navigate("/") //volta para a página inicial usado no botão voltar, mas "empilha" as páginas
     navigate(-1) //volta para a página anterior sem "empilhar" o histórico de navegação
+  }
 
   function handleRemoveLink(deleted) {
     setLinks(prevState => prevState.filter(link => link !== deleted))
@@ -152,6 +153,5 @@ export function New() {
         </Form>
       </main>
     </Container>
-   )
-  }
+  )
 }

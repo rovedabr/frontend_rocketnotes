@@ -7,9 +7,10 @@ import { api } from "../../services/api";
 import { FiArrowLeft, FiUser, FiMail, FiLock, FiCamera } from "react-icons/fi"
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input"
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; //usenavigate para navegação
 
 import { Container, Form, Avatar } from "./style";
+import { ButtonText } from "../../components/ButtonText";
 
 export function Profile() {
   const { user, updateProfile } = useAuth()
@@ -23,16 +24,24 @@ export function Profile() {
 
   const [ avatar, setAvatar ] = useState(user.avatar)
   const [ avatarFile, setAvatarFile ] = useState(null)
+  const navigate = useNavigate()
+
+  function handleBack ()  {
+    // navigate("/") //volta para a página inicial usado no botão voltar, mas "empilha" as páginas
+    navigate(-1) //volta para a página anterior sem "empilhar" o histórico de navegação
+  }
 
   async function handleUpdate() {
-    const user = {
+    const updated = {    //atualizar os dados do usuário
       name,
       email,
       password: passwordNew,
       old_password: passwordOld
     }
 
-    await updateProfile({ user, avatarFile })
+    const userUpdated = Object.assign(user, updated) //atualiza os dados do usuário sobrescrevendo dados antigos
+
+    await updateProfile({ user: userUpdated, avatarFile })
 
   }
 
@@ -48,8 +57,15 @@ export function Profile() {
     <Container>
 
       <header>
+        <button
+          type="button"
+          onClick={handleBack}
+        >
+          <FiArrowLeft size={24}/> {/* tamanho do ícone */}
+        </button>
+        
+     
         <Link to="/">
-        <FiArrowLeft/>
         </Link>
       </header>
 

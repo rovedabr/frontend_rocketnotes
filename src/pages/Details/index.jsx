@@ -21,6 +21,7 @@ export function Details(){
   function handleBack ()  {
     // navigate("/") //volta para a página inicial usado no botão voltar, mas "empilha" as páginas
     navigate(-1) //volta para a página anterior sem "empilhar" o histórico de navegação
+  }
 
   async function handleRemove() {
     const confirm = window.confirm("Deseja realmente excluir esta nota?") //função que confirma a exclusão de uma nota, retorna VERDADEIRO ou FALSO
@@ -99,6 +100,6 @@ export function Details(){
         </main>
       }
     </Container>
-   )
-  }
-};
+  )
+}
+
