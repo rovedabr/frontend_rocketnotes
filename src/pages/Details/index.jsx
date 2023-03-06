@@ -1,4 +1,8 @@
+import { useState, useState } from "react";
 import { Container, Links, Content } from "./styles";
+import { useParams } from "react-router-dom"; //buscar os parâmetros
+
+import { api } from "../../services/api"; //para recuperar os dados usando o useEffect
 
 import { Header } from "../../components/Header";
 import { Button } from "../../components/Button";
@@ -8,39 +12,61 @@ import { ButtonText } from "../../components/ButtonText";
 
 export function Details(){
 
+  const [data, setDate] = useState(null) //inicia sem conteúdo
+
+  const params = useParams(); //busca os parâmetro junto com linha 2
+
+  useEffect(() => {
+    async function fetchNote() {
+      const response = await api.get(`/notes/${params.id}`)
+      setDate(response.data) //busca os detalhes da nota
+    }
+
+    fetchNote()
+  }, [])
+
   return(
     <Container>
       <Header/>
+      {
+        data && // se tem conteúdo mostra o "data", caso contrário não mostra nada
+        <main>
+          <Content> 
 
-      <main>
-        <Content> 
+            <ButtonText title="Excluir nota"/>
 
-          <ButtonText title="Excluir nota"/>
+            <h1>
+              {data.title}
+            </h1>
+            <p>
+              {data.description}
+            </p>
+            {
+              data.links &&   //se tem conteúdo mostra os links 
+              <Section title="Links úteis">
+                <Links>
+                  {
+                    data.links.map(link => ( //função para mostrar os links
+                      <li>
+                        <a href={link.url}>
+                          {link.url}
+                        </a>
+                      </li>
+                    ))
+                  } 
+                  </Links>
+              </Section>
+            }
+            <Section title="Marcadores">
+              <Tag title="express" />
+              <Tag title="nodejs" />
+            </Section>
 
-          <h1>
-          Introdução ao React
-          </h1>
-          <p>
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-          </p>
+            <Button title="Voltar"/>   
 
-          <Section title="Links úteis">
-            <Links>
-              <li><a href="https://github.com/rovedabr">https://github.com/rovedabr</a></li>
-              <li><a href="https://github.com/rovedabr">https://github.com/rovedabr</a></li>
-            </Links>
-          </Section>
-
-          <Section title="Marcadores">
-            <Tag title="express" />
-            <Tag title="nodejs" />
-          </Section>
-
-          <Button title="Voltar"/>   
-
-        </Content>
-      </main>
-
+          </Content>
+        </main>
+      }
     </Container>
   )
 }

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { api } from "../../services/api";
 
 import { FiPlus, FiSearch } from "react-icons/fi";
@@ -16,20 +17,26 @@ export function Home() {
   const [search, setSearch] = useState([])
   const [notes, setNotes] = useState([])
 
+  const navigate = useNavigate()
 
-  function handleTagSelected(tagName) {
-    if(tagName === "all") {   //limpa os filtros e deixa apenas o filtro de todos selecionado
-      return setTagsSelected([])
-    }
 
-    const alreadySelected = tagsSelected.includes(tagName)
+    function handleTagSelected(tagName) {
+      if(tagName === "all") {   //limpa os filtros e deixa apenas o filtro de todos selecionado
+        return setTagsSelected([])
+      }
 
-    if (alreadySelected) {
-      const filteredTags = tagsSelected.filter(tag => tag !== tagName)
-      setTagsSelected(filteredTags)
-    } else {
-      setTagsSelected(prevState =>[...tagsSelected, tagName])
-    }
+      const alreadySelected = tagsSelected.includes(tagName)
+
+      if (alreadySelected) {
+        const filteredTags = tagsSelected.filter(tag => tag !== tagName)
+        setTagsSelected(filteredTags)
+      } else {
+        setTagsSelected(prevState =>[...tagsSelected, tagName])
+      }
+
+     function handleDetails(id) { //levar para a página de detalhes da tag dependendo do usuário
+      navigate(`/detail${id}`)
+     }
 
   useEffect(() => {
     async function fetchTags() {
@@ -80,7 +87,7 @@ export function Home() {
       <Search>
         <Input 
           placeholder="Pesquisar pelo título" 
-          onChange={() => setSearch(e.target.value)}
+          onChange={(e) => setSearch(e.target.value)} //filtra as tags por parte dos nomes (incluindo letras) obedecendo o filtro "like" do backend linkado ao useeffect linha 44 do fronte deste código
           icon={FiSearch}/>
       </Search>
 
@@ -91,6 +98,7 @@ export function Home() {
               <Note
               key={String(note.id)}
               data={note}
+              onClick={() => handleDetails(note_id)} //mostra os detalhes da nota
               />
             ))
           }
