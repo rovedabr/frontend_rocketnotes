@@ -1,6 +1,6 @@
 import { useState, useState } from "react";
 import { Container, Links, Content } from "./styles";
-import { useParams } from "react-router-dom"; //buscar os parâmetros
+import { useParams, useNavigate } from "react-router-dom"; //buscar os parâmetros - usenavigate para navegação das páginas
 
 import { api } from "../../services/api"; //para recuperar os dados usando o useEffect
 
@@ -15,6 +15,20 @@ export function Details(){
   const [data, setDate] = useState(null) //inicia sem conteúdo
 
   const params = useParams(); //busca os parâmetro junto com linha 2
+  const navigate = useNavigate() //constante para navegação das páginas
+
+  function handleBack ()  {
+    navigate("/") //volta para a página inicial usado no botão voltar
+  }
+
+  async function handleRemove() {
+    const confirm = window.confirm("Deseja realmente excluir esta nota?") //função que confirma a exclusão de uma nota, retorna VERDADEIRO ou FALSO
+
+    if (confirm) {
+      await api.delete(`/notes/${params.id}`) //exclui a nota
+      navigate("/")                           //leva o usuário de volta ao início
+    }
+  }
 
   useEffect(() => {
     async function fetchNote() {
@@ -33,7 +47,10 @@ export function Details(){
         <main>
           <Content> 
 
-            <ButtonText title="Excluir nota"/>
+            <ButtonText 
+              title="Excluir nota"
+              onClick={handleRemove} //função para excluir a nota
+            />
 
             <h1>
               {data.title}
@@ -47,8 +64,8 @@ export function Details(){
                 <Links>
                   {
                     data.links.map(link => ( //função para mostrar os links
-                      <li>
-                        <a href={link.url}>
+                      <li key={String(link.id)}> 
+                        <a href={link.url} target="_blank"> {/* abrir uma nova página  = target = _blank */}
                           {link.url}
                         </a>
                       </li>
@@ -57,12 +74,25 @@ export function Details(){
                   </Links>
               </Section>
             }
-            <Section title="Marcadores">
-              <Tag title="express" />
-              <Tag title="nodejs" />
-            </Section>
 
-            <Button title="Voltar"/>   
+            {  //para renderizar as tags dos marcadores
+              data.tags && //se tiver tags para mostrar
+                <Section title="Marcadores">
+                  {
+                   data.tags.map( tag => ( //função para mostrar as tags
+                     <Tag 
+                       key={String(tag.id)}
+                       title={tag.name}
+                     />
+                   )) 
+                  }
+                </Section>
+            }
+
+            <Button 
+              title="Voltar" 
+              onClick={handleBack}
+            />   
 
           </Content>
         </main>
