@@ -2,6 +2,7 @@ import { useState } from "react"
 import { api } from "../../services/api"
 import { useNavigate } from "react-router-dom"
 
+import { ButtonText } from "../../components/ButtonText"
 import { Textarea } from "../../components/Textarea"
 import { NoteItem } from "../../components/NoteItem"
 import { Section } from "../../components/Section"
@@ -30,6 +31,10 @@ export function New() {
     setLinks(prevState => [...prevState, newLink])
     setNewLink("")
   }
+
+  function handleBack ()  {
+    // navigate("/") //volta para a página inicial usado no botão voltar, mas "empilha" as páginas
+    navigate(-1) //volta para a página anterior sem "empilhar" o histórico de navegação
 
   function handleRemoveLink(deleted) {
     setLinks(prevState => prevState.filter(link => link !== deleted))
@@ -66,7 +71,7 @@ export function New() {
     })
 
     alert("Nota criada com sucesso!")
-    navigate("/")
+    navigate(-1) //navegar para a página anterior
   }
 
   return (
@@ -77,6 +82,10 @@ export function New() {
         <Form>
           <header>
             <h1>Criar nota</h1>
+            <ButtonText 
+              title="Voltar"
+              onClick={handleBack}
+            />
             <Link to="/"></Link>
           </header>
 
@@ -143,5 +152,6 @@ export function New() {
         </Form>
       </main>
     </Container>
-  )
+   )
+  }
 }

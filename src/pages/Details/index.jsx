@@ -17,16 +17,17 @@ export function Details(){
   const params = useParams(); //busca os parâmetro junto com linha 2
   const navigate = useNavigate() //constante para navegação das páginas
 
+
   function handleBack ()  {
-    navigate("/") //volta para a página inicial usado no botão voltar
-  }
+    // navigate("/") //volta para a página inicial usado no botão voltar, mas "empilha" as páginas
+    navigate(-1) //volta para a página anterior sem "empilhar" o histórico de navegação
 
   async function handleRemove() {
     const confirm = window.confirm("Deseja realmente excluir esta nota?") //função que confirma a exclusão de uma nota, retorna VERDADEIRO ou FALSO
 
     if (confirm) {
       await api.delete(`/notes/${params.id}`) //exclui a nota
-      navigate("/")                           //leva o usuário de volta ao início
+      navigate(-1)                           //leva o usuário de volta ao início
     }
   }
 
@@ -98,5 +99,6 @@ export function Details(){
         </main>
       }
     </Container>
-  )
-}
+   )
+  }
+};
